@@ -1,0 +1,88 @@
+﻿@model WebApp.Models.WeatherRecord
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>WeatherRecord</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temperature" class="control-label"></label>
+                <input asp-for="Temperature" class="form-control" />
+                <span asp-validation-for="Temperature" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RelativeHumidity" class="control-label"></label>
+                <input asp-for="RelativeHumidity" class="form-control" />
+                <span asp-validation-for="RelativeHumidity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DewPoint" class="control-label"></label>
+                <input asp-for="DewPoint" class="form-control" />
+                <span asp-validation-for="DewPoint" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AtmosphericPressure" class="control-label"></label>
+                <input asp-for="AtmosphericPressure" class="form-control" />
+                <span asp-validation-for="AtmosphericPressure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WindDirection" class="control-label"></label>
+                <input asp-for="WindDirection" class="form-control" />
+                <span asp-validation-for="WindDirection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WindSpeed" class="control-label"></label>
+                <input asp-for="WindSpeed" class="form-control" />
+                <span asp-validation-for="WindSpeed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cloudiness" class="control-label"></label>
+                <input asp-for="Cloudiness" class="form-control" />
+                <span asp-validation-for="Cloudiness" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CloudHeight" class="control-label"></label>
+                <input asp-for="CloudHeight" class="form-control" />
+                <span asp-validation-for="CloudHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Visibility" class="control-label"></label>
+                <input asp-for="Visibility" class="form-control" />
+                <span asp-validation-for="Visibility" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WeatherPhenomenon" class="control-label"></label>
+                <input asp-for="WeatherPhenomenon" class="form-control" />
+                <span asp-validation-for="WeatherPhenomenon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

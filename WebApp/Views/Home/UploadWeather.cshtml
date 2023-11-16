@@ -1,0 +1,48 @@
+﻿@model PagedList.IPagedList<WeatherRecord>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using PagedList.Mvc;
+@using System.Globalization;
+
+<link rel="stylesheet" href="~/css/UploadWeather.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+@{
+    ViewBag.Title = "Upload Weather Data";
+}
+
+<div class="download">Загрузка архивных данных о погоде в Москве</div>
+
+<form method="post" enctype="multipart/form-data" asp-action="UploadWeather">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <input type="file" name="files" id="files" class="form-control" multiple />
+    </div>
+    <button type="submit" class="btn btn-primary">Применить</button>
+</form>
+
+
+@if (!string.IsNullOrEmpty(ViewData["InvalidFileMessage"] as string))
+{
+    <div class="alert alert-danger">
+        @ViewData["InvalidFileMessage"]
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData.ContainsKey("InvalidFileMessage"))
+{
+    <div class="alert alert-danger">
+        @TempData["InvalidFileMessage"]
+    </div>
+}

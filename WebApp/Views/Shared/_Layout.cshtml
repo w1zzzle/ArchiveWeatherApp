@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Layout.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <main role="main" class="pb-3">
+        <div>
+            <a class="title"href="/">Архивы погодных условий в Москве</a>
+        </div>
+
+        <div class="container">
+            <nav class="navbar">
+                <ul class="subtitle">
+                    <li class="sub-item">
+                        <a class="item" href="/Home/ViewWeather">Просмотр данных</a>
+                    </li>
+                    <li class="sub-item">
+                        <a class="item" href="/Home/UploadWeather">Загрузка архивов</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Добавляем раздел для текущей погоды -->
+        @if (Context.Request.Path == "/")
+        {
+            <div class="current-weather">
+                <div>Текущая погода в Москве</div>
+                <div id="weather-info">
+
+                    @{
+                        var apiKey = "e1220bb6-d65c-413b-b569-ed516d36a66f";
+                        var apiUrl = "https://api.weather.yandex.ru/v2/informers?lat=55.75396&lon=37.620393&lang=ru_RU";
+
+                        using (var client = new System.Net.Http.HttpClient())
+                        {
+                            client.DefaultRequestHeaders.Add("X-Yandex-API-Key", apiKey);
+                            var response = client.GetStringAsync(apiUrl).Result;
+                            var weatherData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(response);
+
+                            // Определяем соответствующую погодную иконку и описание на русском
+                            var iconUrl = $"https://yastatic.net/weather/i/icons/blueye/color/svg/{weatherData.fact.icon}.svg";
+
+                            // Отображаем полученные данные
+                            <text>
+                                <p>Сегодня: @DateTime.Now.ToString("dd.MM.yyyy")</p>
+                                <p>Время: @DateTime.Now.ToString("HH:mm")</p>
+                                <p>Температура: @weatherData.fact.temp °C</p>
+                                <p class="lol">одевайтесь теплее</p>
+                                <p>Влажность: @weatherData.fact.humidity %</p>
+                                <p>Скорость ветра: @weatherData.fact.wind_speed м/с</p>
+                                <p>Погода: @weatherData.fact.condition</p>
+                                <p><img src='@iconUrl' width='50' /></p>
+                            </text>
+                        }
+
+                    }
+                </div>
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+</body>
+</html>

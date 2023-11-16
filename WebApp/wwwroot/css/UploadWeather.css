@@ -1,0 +1,35 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+a:hover {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.container {
+    margin-bottom: 40px !important;
+}
+
+main {
+    display: flex!important;
+}
+
+/* Заголовок */
+.title {
+    font-size: 48px;
+    color: white;
+    margin-top: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень текста */
+}
+
+.download{
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+

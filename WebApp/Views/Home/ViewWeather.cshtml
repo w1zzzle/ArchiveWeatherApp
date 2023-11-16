@@ -1,0 +1,180 @@
+﻿@model PagedList.IPagedList<WebApp.Models.WeatherRecord>
+@using PagedList.Mvc;
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Globalization;
+
+<head>
+    <link rel="stylesheet" href="~/css/ViewWeather.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+</head>
+
+@{
+    ViewData["Title"] = "View Weather Archives";
+}
+
+
+
+<!-- JavaScript для отправки POST-запроса при подтверждении очистки данных -->
+<script>
+    $(document).ready(function () {
+        $("#confirmClearDataFinalButton").click(function () {
+            $.post("@Url.Action("ClearWeatherData")", function (data) {
+                // Обработка успешного выполнения запроса, если необходимо
+                // Например, перезагрузка страницы
+                location.reload();
+            });
+        });
+    });
+</script>
+
+<div class="horizontal-form">
+    <form method="get" action="@Url.Action("ViewWeather")">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="year"><p>Выбранный год: @(ViewData["SelectedYear"] ?? "Все")</p></label>
+                <select name="year" id="year" class="form-control">
+                    <option value="">Все</option>
+                    @for (int i = 2010; i <= DateTime.Now.Year; i++)
+                    {
+                        <option value="@i" selected="@(i == (int?)ViewData["SelectedYear"])">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="month"><p>Выбранный месяц: @(ViewData["SelectedMonth"] != null ? @CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName((int)ViewData["SelectedMonth"])) : "Все")</p></label>
+                <select name="month" id="month" class="form-control">
+                    <option value="">Все</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" selected="@(i == (int?)ViewData["SelectedMonth"])">@CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i))</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <button type="submit" class="btn btn-primary">Применить фильтр</button>
+            </div>
+            <div class="form-group col-md-3">
+                <button type="button" class="btn btn-danger" id="confirmClearDataButton" data-toggle="modal" data-target="#confirmClearDataModal">Очистить все данные</button>
+            </div>
+        </div>
+
+
+        <!-- Модальное окно подтверждения очистки данных -->
+        <div class="modal fade" id="confirmClearDataModal" tabindex="-1" role="dialog" aria-labelledby="confirmClearDataModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmClearDataModalLabel">Подтверждение очистки данных</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Вы уверены, что хотите очистить все данные? 
+                        Они так же удалятся из Базы Данных.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-danger" id="confirmClearDataFinalButton">Очистить данные</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div>
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    </div>
+    <div class="container-table">
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("ViewWeather", new { page = i, year = ViewBag.Year, month = ViewBag.Month })">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Время (мск)</th>
+                    <th>Температура (°C)</th>
+                    <th>Влажность (%)</th>
+                    <th>Точка росы</th>
+                    <th>Атмосферное давление (мм рт.ст.)</th>
+                    <th>Направление ветра</th>
+                    <th>Скорость ветра (м/c)</th>
+                    <th>Облачность (%)</th>
+                    <th>Высота облаков</th>
+                    <th>Видимость</th>
+                    <th>Погодные явления</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    <tr>
+                        <td>@record.Date.ToShortDateString()</td>
+                        <td>@record.Time</td>
+                        <td>@record.Temperature</td>
+                        <td>@record.RelativeHumidity</td>
+                        <td>@record.DewPoint</td>
+                        <td>@record.AtmosphericPressure</td>
+                        <td>@record.WindDirection</td>
+                        <td>@record.WindSpeed</td>
+                        <td>@record.Cloudiness</td>
+                        <td>@record.CloudHeight</td>
+                        <td>@record.Visibility</td>
+                        <td>@record.WeatherPhenomenon</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <!-- Пагинация -->
+    <div class="container-table">
+        <ul class="pagination">
+            @for (var i = 1; i <= Model.PageCount; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("ViewWeather", new { page = i, year = ViewBag.Year, month = ViewBag.Month })">@i</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <script>
+
+        $(function () {
+            $(".pagination").draggable({ axis: "x" });
+        });
+    </script>
+}
+else
+{
+    <p>Данных не найдено</p>
+    @if (ViewData.ModelState.Count > 0)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+}

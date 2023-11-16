@@ -1,0 +1,123 @@
+﻿/* Обнуление отступов и полей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* Заголовок */
+.title {
+    font-size: 48px;
+    color: white;
+    margin-top: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень текста */
+}
+
+/* Общие стили для body */
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, #87b9c7, #487a8c); /* Градиентный фон с адаптированными цветами */
+}
+
+/* Основной контент */
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    border-radius: 50px;
+    margin-top: 20px;
+    max-width: 50%;
+    overflow-x: auto;
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Тень */
+
+    background-color: #327882;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+
+/* Список подзаголовков */
+.subtitle {
+    margin: auto;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    justify-content: space-between;
+}
+
+
+/* Ссылки в навигационном меню */
+.item {
+    text-decoration: none;
+    color: white;
+}
+
+    .item:hover {
+        color: aquamarine;
+        text-decoration: none;
+    }
+
+
+/* Подэлементы списка */
+.sub-item {
+    padding: 28px 100px;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .sub-item:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+    }
+
+/* Отображение погоды */
+.current-weather {
+    font-size: 20px;
+    margin-top: 20px;
+    background-color: #327882; /* Цвет фона */
+    color: #fff; /* Белый текст */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+.lol {
+    font-size: 14px;
+    padding-bottom: 8px;
+    margin-top: -15px;
+}
+
+#weather-info {
+    margin-top: 15px;
+}
+
+    #weather-info p {
+        
+        margin-bottom: 10px;
+    }
+
+    #weather-info img {
+        margin-top: 10px;
+        border-radius: 50%; /* Скругление углов у изображения */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для изображения */
+        background-color: white;
+    }
